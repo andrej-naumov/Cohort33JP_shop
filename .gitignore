@@ -1,0 +1,56 @@
+# Конфигурационные файлы IDE
+/.idea
+*.iml
+*.ipr
+*.iws
+
+# Файлы и папки Maven
+src/target
+/target
+/logs
+dependency-reduced-pom.xml
+release.properties
+
+# Файлы и папки Gradle
+/.gradle
+/build
+!gradle-wrapper.jar
+
+# Логи и отчеты
+*.log
+*.out
+*.class
+*.jar
+*.war
+*.ear
+
+# Настройки среды разработки
+/.classpath
+/.project
+/.settings
+
+# Файлы IntelliJ IDEA
+/out
+
+# Файлы Eclipse
+/.metadata
+/.recommenders
+/*.snap
+
+# Настройки OS
+.DS_Store
+Thumbs.db
+
+# Персональные файлы конфигурации
+*.swp
+*.swo
+*~
+
+# Файлы среды Docker
+/.docker
+
+# Файлы покрытий тестов
+/test-coverage
+
+# Файлы настроек системы
+.env
