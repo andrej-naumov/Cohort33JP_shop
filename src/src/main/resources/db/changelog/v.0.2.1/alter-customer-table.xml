@@ -13,7 +13,7 @@
 
         <!-- Добавляем новый столбец -->
         <addColumn tableName="customer">
-            <column name="activity" type="boolean">
+            <column name="active" type="boolean">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
