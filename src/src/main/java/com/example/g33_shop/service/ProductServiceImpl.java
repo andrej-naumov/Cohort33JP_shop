@@ -1,7 +1,9 @@
 package com.example.g33_shop.service;
 
 import com.example.g33_shop.domain.entity.Product;
+import com.example.g33_shop.repository.interfaces.ProductRepository;
 import com.example.g33_shop.service.interfaces.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -9,53 +11,64 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private final ProductRepository productRepository;
+
+    @Autowired
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     @Override
     public Product save(Product product) {
-        return null;
+        return productRepository.save(product);
     }
 
     @Override
     public List<Product> getAllActiveProducts() {
-        return List.of();
+        return productRepository.findAllActive();
     }
 
     @Override
     public Product getById(Long id) {
-        return null;
+        return productRepository.findById(id).orElse(null);
     }
 
     @Override
     public Product update(Product product) {
-        return null;
+        if (product.getId() == null || !productRepository.findById(product.getId()).isPresent()) {
+            return null;
+        }
+        return productRepository.save(product);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        productRepository.deleteById(id);
     }
 
     @Override
     public void deleteByTitle(String title) {
-
+        productRepository.deleteByTitle(title);
     }
 
     @Override
     public void restoreById(Long id) {
-
+        productRepository.restoreById(id);
     }
 
     @Override
     public long getAllActiveProductsQuantity() {
-        return 0;
+        return productRepository.countAllActive();
     }
 
     @Override
     public BigDecimal getAllActiveProductsTotalPrice() {
-        return null;
+        return productRepository.calculateTotalPriceOfAllActive();
     }
 
     @Override
     public BigDecimal getAllActiveProductsAveragePrice() {
-        return null;
+        return productRepository.calculateAveragePriceOfAllActive();
     }
 }

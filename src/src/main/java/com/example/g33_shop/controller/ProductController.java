@@ -39,11 +39,10 @@ public class ProductController {
         }
     }
 
-//    @GetMapping("/all")
-//    public List<Product> getAll() {
-//        // TODO обращаемся к сервису и запрашиваем все продукты
-//        return null;
-//    }
+    @GetMapping("/all")
+    public List<Product> getAll() {
+        return service.getAllActiveProducts();
+    }
 
     // Update: PUT -> localhost:8080/products
 

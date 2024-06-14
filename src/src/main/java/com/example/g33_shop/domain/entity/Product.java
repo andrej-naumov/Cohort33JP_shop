@@ -1,6 +1,5 @@
 package com.example.g33_shop.domain.entity;
 
-
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -10,6 +9,14 @@ public class Product {
     private String title;
     private BigDecimal price;
     private boolean active;
+
+    // Конструктор для инициализации полей
+    public Product(Long id, String title, BigDecimal price, boolean active) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.active = active;
+    }
 
     public Long getId() {
         return id;
