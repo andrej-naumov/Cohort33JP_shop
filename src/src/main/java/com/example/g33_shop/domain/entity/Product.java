@@ -1,7 +1,7 @@
 package com.example.g33_shop.domain.entity;
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "product")
-public class Product  {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +24,12 @@ public class Product  {
 
     @Column(name = "active")
     private boolean active;
+
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonManagedReference
+//    private List<CartProductItem> cartProductItems = new ArrayList<>();
+
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -57,16 +63,13 @@ public class Product  {
         this.active = active;
     }
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartProductItem> cartProductItems = new ArrayList<>();
-
-    public List<CartProductItem> getCartProductItems() {
-        return cartProductItems;
-    }
-
-    public void setCartProductItems(List<CartProductItem> cartProductItems) {
-        this.cartProductItems = cartProductItems;
-    }
+//    public List<CartProductItem> getCartProductItems() {
+//        return cartProductItems;
+//    }
+//
+//    public void setCartProductItems(List<CartProductItem> cartProductItems) {
+//        this.cartProductItems = cartProductItems;
+//    }
 
     @Override
     public boolean equals(Object o) {

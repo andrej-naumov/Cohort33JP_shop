@@ -49,23 +49,23 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addProductToCart(Long cartId, CartProductItem productItem) {
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
-        if (cartOptional.isPresent() && productItem.getProduct().isActive()) {
-            Cart cart = cartOptional.get();
-            cart.getProducts().add(productItem);
-            productItem.setCart(cart);
-            cartProductRepository.save(productItem);
-            cartRepository.save(cart);
-        }
+//        if (cartOptional.isPresent() && productItem.getProduct().isActive()) {
+//            Cart cart = cartOptional.get();
+//            cart.getProducts().add(productItem);
+//            productItem.setCart(cart);
+//            cartProductRepository.save(productItem);
+//            cartRepository.save(cart);
+//        }
     }
 
     @Override
     public List<CartProductItem> getAllActiveProductsInCart(Long cartId) {
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
-        if (cartOptional.isPresent()) {
-            return cartOptional.get().getProducts().stream()
-                    .filter(cartProductItem -> cartProductItem.getProduct().isActive())
-                    .collect(Collectors.toList());
-        }
+//        if (cartOptional.isPresent()) {
+//            return cartOptional.get().getProducts().stream()
+//                    .filter(cartProductItem -> cartProductItem.getProduct().isActive())
+//                    .collect(Collectors.toList());
+//        }
         return List.of();
     }
 
@@ -73,9 +73,9 @@ public class CartServiceImpl implements CartService {
     public void removeProductFromCart(Long cartId, Long productId) {
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
         if (cartOptional.isPresent()) {
-            Cart cart = cartOptional.get();
-            cart.getProducts().removeIf(cartProductItem -> cartProductItem.getProduct().getId().equals(productId));
-            cartRepository.save(cart);
+//            Cart cart = cartOptional.get();
+//            cart.getProducts().removeIf(cartProductItem -> cartProductItem.getProduct().getId().equals(productId));
+//            cartRepository.save(cart);
         }
     }
 
@@ -83,36 +83,36 @@ public class CartServiceImpl implements CartService {
     public void clearCart(Long cartId) {
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
         if (cartOptional.isPresent()) {
-            Cart cart = cartOptional.get();
-            cart.getProducts().clear();
-            cartRepository.save(cart);
+//            Cart cart = cartOptional.get();
+//            cart.getProducts().clear();
+//            cartRepository.save(cart);
         }
     }
 
     @Override
     public BigDecimal getTotalPriceOfActiveProductsInCart(Long cartId) {
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
-        if (cartOptional.isPresent()) {
-            return cartOptional.get().getProducts().stream()
-                    .filter(cartProductItem -> cartProductItem.getProduct().isActive())
-                    .map(cartProductItem -> cartProductItem.getProduct().getPrice())
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-        }
+//        if (cartOptional.isPresent()) {
+//            return cartOptional.get().getProducts().stream()
+//                    .filter(cartProductItem -> cartProductItem.getProduct().isActive())
+//                    .map(cartProductItem -> cartProductItem.getProduct().getPrice())
+//                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+//        }
         return BigDecimal.ZERO;
     }
 
     @Override
     public BigDecimal getAveragePriceOfActiveProductsInCart(Long cartId) {
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
-        if (cartOptional.isPresent()) {
-            List<BigDecimal> prices = cartOptional.get().getProducts().stream()
-                    .filter(cartProductItem -> cartProductItem.getProduct().isActive())
-                    .map(cartProductItem -> cartProductItem.getProduct().getPrice())
-                    .collect(Collectors.toList());
-            return prices.stream()
-                    .reduce(BigDecimal.ZERO, BigDecimal::add)
-                    .divide(new BigDecimal(prices.size()), BigDecimal.ROUND_HALF_UP);
+//        if (cartOptional.isPresent()) {
+//            List<BigDecimal> prices = cartOptional.get().getProducts().stream()
+//                    .filter(cartProductItem -> cartProductItem.getProduct().isActive())
+//                    .map(cartProductItem -> cartProductItem.getProduct().getPrice())
+//                    .collect(Collectors.toList());
+//            return prices.stream()
+//                    .reduce(BigDecimal.ZERO, BigDecimal::add)
+//                    .divide(new BigDecimal(prices.size()), BigDecimal.ROUND_HALF_UP);
+//        }
+            return BigDecimal.ZERO;
         }
-        return BigDecimal.ZERO;
     }
-}

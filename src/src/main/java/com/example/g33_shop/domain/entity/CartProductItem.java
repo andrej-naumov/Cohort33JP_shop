@@ -1,11 +1,11 @@
 package com.example.g33_shop.domain.entity;
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.util.Objects;
 
 @Entity
-@Table(name = "cart_product")
+@Table(name = "cart_product_item")
 public class CartProductItem {
 
     @Id
@@ -13,27 +13,17 @@ public class CartProductItem {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", nullable = false)
+    @JsonBackReference
     private Cart cart;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
+    @JsonBackReference
     private Product product;
 
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
-
-    public CartProductItem() {
-    }
-
-    public CartProductItem(Cart cart, Product product, int quantity) {
-        this.cart = cart;
-        this.product = product;
-        this.quantity = quantity;
-    }
-
-    // getters and setters
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -59,33 +49,23 @@ public class CartProductItem {
         this.product = product;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CartProductItem that = (CartProductItem) o;
-        return quantity == that.quantity &&
-                Objects.equals(id, that.id) &&
-                Objects.equals(cart, that.cart) &&
-                Objects.equals(product, that.product);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cart, product, quantity);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return String.format("CartProductItem: id - %d, cartId - %d, productId - %d, quantity - %d",
-                id, cart.getId(), product.getId(), quantity);
+        return "CartProductItem{" +
+                "id=" + id +
+                '}';
     }
 }
