@@ -1,35 +1,36 @@
 package com.example.g33_shop.domain.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "product")
+@Schema(description = "Class that describes Product")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @Schema(
+            description = "Product unique identifier",
+            example = "777",
+            accessMode = Schema.AccessMode.READ_ONLY
+    )
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "title")
+    @Schema(description = "Product title", example = "Banana")
     private String title;
 
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
+    @Schema(description = "Product price", example = "190.00")
     private BigDecimal price;
 
     @Column(name = "active")
     private boolean active;
-
-//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JsonManagedReference
-//    private List<CartProductItem> cartProductItems = new ArrayList<>();
-
-    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -63,14 +64,6 @@ public class Product {
         this.active = active;
     }
 
-//    public List<CartProductItem> getCartProductItems() {
-//        return cartProductItems;
-//    }
-//
-//    public void setCartProductItems(List<CartProductItem> cartProductItems) {
-//        this.cartProductItems = cartProductItems;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,9 +81,5 @@ public class Product {
     public String toString() {
         return String.format("Product: id - %d, title - %s, price - %s, active - %s",
                 id, title, price, active ? "yes" : "no");
-    }
-
-    public Product getProduct() {
-        return this;
     }
 }

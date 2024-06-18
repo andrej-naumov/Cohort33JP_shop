@@ -1,7 +1,6 @@
 package com.example.g33_shop.service.interfaces;
 
-
-import com.example.g33_shop.domain.entity.Product;
+import com.example.g33_shop.domain.dto.ProductDto;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,13 +17,12 @@ import java.util.List;
  * • Вернуть суммарную стоимость всех продуктов в базе данных (активных).
  * • Вернуть среднюю стоимость продукта в базе данных (из активных).
  * */
-
 public interface ProductService {
 
-    Product save(Product product);
-    List<Product> getAllActiveProducts();
-    Product getById(Long id);
-    Product update(Product product);
+    ProductDto save(ProductDto product);
+    List<ProductDto> getAllActiveProducts();
+    ProductDto getById(Long id);
+    ProductDto update(ProductDto product);
     void deleteById(Long id);
     void deleteByTitle(String title);
     void restoreById(Long id);
