@@ -1,46 +1,67 @@
 package com.example.g33_shop.service;
 
+import com.example.g33_shop.domain.dto.CustomerDto;
 import com.example.g33_shop.domain.entity.Customer;
 import com.example.g33_shop.repository.CustomerRepository;
 import com.example.g33_shop.service.interfaces.CustomerService;
+import com.example.g33_shop.service.mapping.CustomerMappingService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository repository;
+    private final CustomerMappingService mappingService;
 
-    public CustomerServiceImpl(CustomerRepository repository) {
+    public CustomerServiceImpl(CustomerRepository repository, CustomerMappingService mappingService) {
         this.repository = repository;
+        this.mappingService = mappingService;
     }
 
     @Override
-    public Customer save(Customer customer) {
-        customer.setId(null);
+    @Transactional // Требуется для сохранения и возвращения сущности Customer
+    public CustomerDto save(CustomerDto customerDto) {
+        // Преобразуем CustomerDto в сущность Customer
+        Customer customer = mappingService.mapDtoToEntity(customerDto);
+        customer.setId(null); // Устанавливаем id в null для нового клиента
         customer.setActive(true); // По умолчанию считаем, что новый клиент активен
-        return repository.save(customer);
+        Customer savedCustomer = repository.save(customer);
+        // Преобразуем сохраненную сущность обратно в DTO и возвращаем
+        return mappingService.mapEntityToDto(savedCustomer);
     }
 
     @Override
-    public List<Customer> getAllActiveCustomers() {
-        return repository.findAllActive();
+    public List<CustomerDto> getAllActiveCustomers() {
+        return repository.findAllActive().stream()
+                .map(mappingService::mapEntityToDto) // Преобразуем сущность в DTO
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Customer getById(Long id) {
-        return repository.findById(id).orElse(null);
+    public CustomerDto getById(Long id) {
+        return repository.findById(id)
+                .filter(Customer::isActive)
+                .map(mappingService::mapEntityToDto) // Преобразуем сущность в DTO
+                .orElse(null);
     }
 
     @Override
-    public Customer update(Customer customer) {
+    @Transactional // Требуется для сохранения обновленной сущности Customer
+    public CustomerDto update(CustomerDto customerDto) {
         // Проверяем, что у клиента задан идентификатор
-        if (customer.getId() == null) {
+        if (customerDto.getId() == null) {
             throw new IllegalArgumentException("Customer ID must not be null for update");
         }
-        return repository.save(customer);
+        // Преобразуем CustomerDto в сущность Customer и сохраняем
+        Customer customerToUpdate = mappingService.mapDtoToEntity(customerDto);
+        Customer updatedCustomer = repository.save(customerToUpdate);
+        // Преобразуем обновленную сущность обратно в DTO и возвращаем
+        return mappingService.mapEntityToDto(updatedCustomer);
     }
 
     @Override
@@ -57,6 +78,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional // Требуется для сохранения обновленной сущности Customer
     public void restoreById(Long id) {
         Customer customer = repository.findById(id).orElse(null);
         if (customer != null) {

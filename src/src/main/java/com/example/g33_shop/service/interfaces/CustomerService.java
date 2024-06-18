@@ -1,5 +1,6 @@
 package com.example.g33_shop.service.interfaces;
 
+import com.example.g33_shop.domain.dto.CustomerDto;
 import com.example.g33_shop.domain.entity.Customer;
 
 import java.math.BigDecimal;
@@ -22,10 +23,10 @@ import java.util.List;
  */
 public interface CustomerService {
 
-    Customer save(Customer customer);
-    List<Customer> getAllActiveCustomers();
-    Customer getById(Long id);
-    Customer update(Customer customer);
+    CustomerDto save(CustomerDto customerDto);
+    List<CustomerDto> getAllActiveCustomers();
+    CustomerDto getById(Long id);
+    CustomerDto update(CustomerDto customerDto);
     void deleteById(Long id);
     void deleteByName(String name);
     void restoreById(Long id);

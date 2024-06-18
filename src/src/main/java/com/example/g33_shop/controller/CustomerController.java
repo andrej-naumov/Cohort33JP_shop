@@ -1,6 +1,6 @@
 package com.example.g33_shop.controller;
 
-import com.example.g33_shop.domain.entity.Customer;
+import com.example.g33_shop.domain.dto.CustomerDto;
 import com.example.g33_shop.service.interfaces.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,25 +21,25 @@ public class CustomerController {
 
     // Create: POST -> localhost:8080/customers
     @PostMapping
-    public Customer save(@RequestBody Customer customer) {
-        return service.save(customer);
+    public CustomerDto save(@RequestBody CustomerDto customerDto) {
+        return service.save(customerDto);
     }
 
     // Read: GET -> localhost:8080/customers?id=3
     @GetMapping
-    public List<Customer> get(@RequestParam(required = false) Long id) {
+    public List<CustomerDto> get(@RequestParam(required = false) Long id) {
         if (id == null) {
             return service.getAllActiveCustomers();
         } else {
-            Customer customer = service.getById(id);
-            return customer == null ? null : List.of(customer);
+            CustomerDto customerDto = service.getById(id);
+            return customerDto == null ? null : List.of(customerDto);
         }
     }
 
     // Update: PUT -> localhost:8080/customers
     @PutMapping
-    public Customer update(@RequestBody Customer customer) {
-        return service.update(customer);
+    public CustomerDto update(@RequestBody CustomerDto customerDto) {
+        return service.update(customerDto);
     }
 
     // Delete: DELETE -> localhost:8080/customers?id=3
