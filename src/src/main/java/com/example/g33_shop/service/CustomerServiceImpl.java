@@ -57,12 +57,22 @@ public class CustomerServiceImpl implements CustomerService {
         if (customerDto.getId() == null) {
             throw new IllegalArgumentException("Customer ID must not be null for update");
         }
-        // Преобразуем CustomerDto в сущность Customer и сохраняем
-        Customer customerToUpdate = mappingService.mapDtoToEntity(customerDto);
-        Customer updatedCustomer = repository.save(customerToUpdate);
+
+        // Ищем существующего клиента по ID
+        Customer existingCustomer = repository.findById(customerDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+
+        // Обновляем существующего клиента с помощью данных из DTO
+        existingCustomer.setName(customerDto.getName());
+        // Другие поля также можно обновить по необходимости
+
+        // Сохраняем обновленного клиента
+        Customer updatedCustomer = repository.save(existingCustomer);
+
         // Преобразуем обновленную сущность обратно в DTO и возвращаем
         return mappingService.mapEntityToDto(updatedCustomer);
     }
+
 
     @Override
     public void deleteById(Long id) {
